@@ -18,3 +18,39 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+#search-box:focus {
+  outline-color: midnightblue
+}
+
+.country-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.country-item {
+  display: flex;
+}
+
+.country-item:not(:last-child) {
+  margin-bottom: 20px;
+
+}
+
+.country-img {
+  margin-right: 20px;
+}
+
+.country-name {
+  font-size: 18px;
+  margin: 0;
+}
+
+.country-info-data {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 500;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
