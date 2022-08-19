@@ -52,15 +52,11 @@ function createCountryList(countries) {
 }
 
 function performCountryInfo(countryObj) {
-    const langMarkup = Object.values(countryObj.languages).join(", ");
-    const countryInfoMarkup = `
+    const languageMarkup = Object.values(countryObj.languages).join(", ");
+    const infoMarkup = `
     <span class = "country-info-data">Capital:</span><span>${countryObj.capital}</span><br>
     <span class = "country-info-data">Population:</span><span>${countryObj.population}</span><br>
-    <span class = "country-info-data">Languages:</span><span>${langMarkup}</span>
+    <span class = "country-info-data">Languages:</span><span>${languageMarkup}</span>
     `;
-    refs.countryInfo.innerHTML = countryInfoMarkup;
-
-    const countryTitle = refs.countryList.querySelector('.country-name'); 
-    countryTitle.style.fontSize = "25px";
-    countryTitle.style.fontWeight = "500";
+    refs.countryInfo.innerHTML = infoMarkup;
 }

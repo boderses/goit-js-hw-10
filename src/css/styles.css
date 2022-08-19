@@ -20,7 +20,9 @@ body {
 }
 
 #search-box:focus {
-  outline-color: midnightblue
+  outline: none !important;
+  border: 1px solid rgb(214, 250, 10);
+  box-shadow: 0 0 5px #719ECE;
 }
 
 .country-list {
@@ -31,6 +33,7 @@ body {
 
 .country-item {
   display: flex;
+  align-items: center;
 }
 
 .country-item:not(:last-child) {
@@ -40,17 +43,20 @@ body {
 
 .country-img {
   margin-right: 20px;
+  width: 60px;
+  height: 30px;
 }
 
 .country-name {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 650;
   margin: 0;
 }
 
 .country-info-data {
   display: inline-block;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: bolder;
   margin-right: 10px;
   margin-bottom: 20px;
 }
