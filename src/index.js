@@ -11,52 +11,64 @@ const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
     
 
+const onInput = (e) => {
+cleanMarkup()
+const nameCountry = e.target.value.trim().toLowerCase();
+
+if(nameCountry === "") {
+    cleanMarkup()
+    return;
+}  
+  fetchCountries(nameCountry)
+  .then(countries => {
+    insertMarkup(countries);
+  }).catch(error => {if(error === "Error 404") {
+    Notify.failure("Oops, there is no country with that name")
+  }})
+}
+
 searchList.addEventListener("input", debounce(onInput, DEBOUNCE_DELAY));
 
-function onInput() {
-    if (searchList === "") {
-        countryList.innerHTML = "";
-        countryInfo.innerHTML = "";
-        return;
-    }
+const createMaxMarkup = item => `
+<li>
+<img src="${item.flags.svg}" width=70px><br>
+ <span class = "country-info-data">Name:</span><span>${item.name.official}</span><br>
+  <span class = "country-info-data">Capital:</span><span>${item.capital}</span><br>
+ <span class = "country-info-data">Population:</span><span>${item.population}</span><br>
+ <span class = "country-info-data">Languages:</span><span> ${Object.values(item.languages)}</span>
+</li>
+`;
 
-    fetchCountries(searchList.value.trim())
-        .then(result => {
-            createCountryList(result);
-            console.log(result);
-        })
-        .catch(error => {
-            Notify.failure("Oops, there is no country with that name");
-            countryList.innerHTML = "";
-            console.log(error);
-        })
+const createMinMarkup = country => `
+   <li class = "country-item">
+ <img class = "country-img" src = ${country.flags.svg} width = 30></img>
+ <p class = "country-name">${country.name.official}</p>
+     </li>
+`;
+
+
+function generateMarkup(array) {
+    if(array.length > 10) {
+        Notify.warning(
+        "Too many matches found. Please enter a more specific name.")} 
+
+    else if(array.length >= 2 && array.length <= 10){            
+        return array.reduce((acc, item) => acc + createMinMarkup(item), "")}
+
+     else if(array.length === 1) {
+        return array.reduce((acc, item) => acc + createMaxMarkup(item), "") 
+    } 
 }
 
-function createCountryList(countries) {
-    const markup = countries.map(country => `
-            <li class = "country-item">
-                <img class = "country-img" src = ${country.flags.svg} width = 30></img>
-                <p class = "country-name">${country.name.official}</p>
-            </li>
-            `).join("");
-    countryList.innerHTML = markup;
-    countryInfo.innerHTML = "";
 
-    if (countries.length > 10) {
-        Notify.info("Too many matches found. Please enter a more specific name.");
-        countryList.innerHTML = "";
-    }
-    if (countries.length === 1) {
-        performCountryInfo(countries[0]);
-    }
+function insertMarkup(array) {
+    const result = generateMarkup(array);
+    countryList.insertAdjacentHTML('beforeend', result);
 }
 
-function performCountryInfo(countryObj) {
-    const languageMarkup = Object.values(countryObj.languages).join(", ");
-    const infoMarkup = `
-    <span class = "country-info-data">Capital:</span><span>${countryObj.capital}</span><br>
-    <span class = "country-info-data">Population:</span><span>${countryObj.population}</span><br>
-    <span class = "country-info-data">Languages:</span><span>${languageMarkup}</span>
-    `;
-    countryInfo.innerHTML = infoMarkup;
+function cleanMarkup(){
+countryList.innerHTML = "";
+ countryInfo.innerHTML = "";
 }
+
+
