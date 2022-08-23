@@ -48,27 +48,31 @@ const createMinMarkup = country => `
 
 
 function generateMarkup(array) {
-    if(array.length > 10) {
+  if (array.length > 10) {
         Notify.warning(
-        "Too many matches found. Please enter a more specific name.")} 
+          "Too many matches found. Please enter a more specific name.")
+  cleanMarkup()} 
 
     else if(array.length >= 2 && array.length <= 10){            
         return array.reduce((acc, item) => acc + createMinMarkup(item), "")}
 
-     else if(array.length === 1) {
+    else if (array.length === 1) {;
         return array.reduce((acc, item) => acc + createMaxMarkup(item), "") 
-    } 
+  } 
+  
 }
 
 
 function insertMarkup(array) {
-    const result = generateMarkup(array);
-    countryList.insertAdjacentHTML('beforeend', result);
+  const result = generateMarkup(array);
+    if (result) {
+      countryList.insertAdjacentHTML('beforeend', result);
+  }
 }
 
 function cleanMarkup(){
-countryList.innerHTML = "";
- countryInfo.innerHTML = "";
+    countryList.innerHTML = "";
+    countryInfo.innerHTML = "";
 }
 
 
